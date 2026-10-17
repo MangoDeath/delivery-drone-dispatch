@@ -1,0 +1,75 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package planning {
+  class RoutePlanner
+  class WeatherChecker
+  class FlightPlanRepository
+  class FlightPlan
+  class Zone
+  enum FlightPlanStatus
+  FlightPlan --> FlightPlanStatus
+  FlightPlanRepository --> FlightPlan
+  FlightPlanRepository --> Zone
+}
+
+package droneprep {
+  class PayloadSensor
+  class BatteryManager
+  class DroneRepository
+  class Drone
+  class DroneBooking
+  enum DroneBookingStatus
+  DroneBooking --> DroneBookingStatus
+  DroneRepository --> Drone
+  DroneRepository --> DroneBooking
+}
+
+package landing {
+  class LandingPadController
+  class ConfirmationCodeGenerator
+  class DeliveryRepository
+  class LandingPad
+  class DeliveryConfirmation
+  enum LandingPadStatus
+  enum DeliveryConfirmationStatus
+  LandingPad --> LandingPadStatus
+  DeliveryConfirmation --> DeliveryConfirmationStatus
+  LandingPadController --> DeliveryRepository
+  DeliveryRepository --> LandingPad
+  DeliveryRepository --> DeliveryConfirmation
+}
+
+package facade {
+  class DispatchFacade {
+    +dispatch(orderId, droneId, zone, payloadKg)
+  }
+  class AdminFacade {
+    +showAllData()
+    +compensate(chainId)
+    +recoverPending()
+  }
+  class CompensationService
+  class ChainRepository
+  class DispatchChain
+  enum ChainStatus
+  DispatchChain --> ChainStatus
+  ChainRepository --> DispatchChain
+  DispatchFacade --> CompensationService
+  AdminFacade --> CompensationService
+  CompensationService --> ChainRepository
+}
+
+DispatchFacade --> RoutePlanner
+DispatchFacade --> WeatherChecker
+DispatchFacade --> PayloadSensor
+DispatchFacade --> BatteryManager
+DispatchFacade --> LandingPadController
+DispatchFacade --> ConfirmationCodeGenerator
+DispatchFacade --> FlightPlanRepository
+DispatchFacade --> DroneRepository
+DispatchFacade --> DeliveryRepository
+AdminFacade --> FlightPlanRepository
+AdminFacade --> DroneRepository
+AdminFacade --> DeliveryRepository
+@enduml
