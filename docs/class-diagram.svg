@@ -1,51 +1,128 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="930" viewBox="0 0 1400 930">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title description">
+  <title id="title">Delivery Drone Dispatch class diagram</title>
+  <desc id="description">Client calls two facades. DispatchFacade coordinates three separate subsystems. Each subsystem keeps its repository and domain objects.</desc>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#334155"/></marker>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
     <style>
-      .group{stroke:#64748b;stroke-width:2;rx:12}.box{fill:#fff;stroke:#475569;stroke-width:1.5;rx:6}.label{font:600 17px Arial;fill:#0f172a}.text{font:14px Arial;fill:#1e293b}.edge{stroke:#334155;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+      .bg { fill: #f8fafc; }
+      .title { font: 700 25px Arial, sans-serif; fill: #172554; }
+      .subtitle { font: 14px Arial, sans-serif; fill: #475569; }
+      .package { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; }
+      .package-title { font: 700 16px Arial, sans-serif; fill: #1e3a8a; }
+      .box { fill: #ffffff; stroke: #64748b; stroke-width: 1.4; rx: 8; }
+      .facade { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.8; rx: 8; }
+      .service { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.6; rx: 8; }
+      .repo { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.6; rx: 8; }
+      .entity { fill: #fdf4ff; stroke: #a855f7; stroke-width: 1.5; rx: 8; }
+      .client { fill: #fefce8; stroke: #ca8a04; stroke-width: 1.8; rx: 8; }
+      .box-title { font: 700 14px Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .box-text { font: 12px Arial, sans-serif; fill: #475569; text-anchor: middle; }
+      .edge { fill: none; stroke: #475569; stroke-width: 1.5; marker-end: url(#arrow); }
+      .internal { fill: none; stroke: #94a3b8; stroke-width: 1.35; marker-end: url(#arrow); }
+      .note { font: italic 12px Arial, sans-serif; fill: #64748b; text-anchor: middle; }
+      .legend { font: 12px Arial, sans-serif; fill: #475569; }
     </style>
   </defs>
-  <rect width="1400" height="930" fill="#f8fafc"/>
-  <text x="700" y="32" text-anchor="middle" class="label" font-size="22">Delivery Drone Dispatch Class Diagram</text>
 
-  <rect x="45" y="70" width="250" height="95" fill="#fef3c7" class="group"/>
-  <text x="65" y="96" class="label">Client</text><rect x="80" y="112" width="180" height="34" class="box"/><text x="170" y="134" text-anchor="middle" class="text">ConsoleMenu</text>
+  <rect class="bg" width="1400" height="860"/>
+  <text x="700" y="38" class="title" text-anchor="middle">Delivery Drone Dispatch — class diagram</text>
+  <text x="700" y="61" class="subtitle" text-anchor="middle">Facade coordinates three independent subsystems</text>
 
-  <rect x="500" y="60" width="390" height="205" fill="#ede9fe" class="group"/>
-  <text x="520" y="86" class="label">facade</text>
-  <rect x="530" y="105" width="145" height="52" class="box"/><text x="602" y="128" text-anchor="middle" class="text">DispatchFacade</text><text x="602" y="146" text-anchor="middle" class="text">dispatch(...)</text>
-  <rect x="710" y="105" width="145" height="52" class="box"/><text x="782" y="128" text-anchor="middle" class="text">AdminFacade</text><text x="782" y="146" text-anchor="middle" class="text">recoverPending()</text>
-  <rect x="530" y="185" width="145" height="34" class="box"/><text x="602" y="207" text-anchor="middle" class="text">CompensationService</text>
-  <rect x="710" y="185" width="145" height="34" class="box"/><text x="782" y="207" text-anchor="middle" class="text">ChainRepository</text>
-  <rect x="620" y="230" width="145" height="24" class="box"/><text x="692" y="247" text-anchor="middle" class="text">DispatchChain + status</text>
+  <!-- Client -->
+  <rect x="605" y="84" width="190" height="48" class="client"/>
+  <text x="700" y="106" class="box-title">ConsoleMenu</text>
+  <text x="700" y="122" class="box-text">«Client»</text>
 
-  <rect x="45" y="330" width="390" height="250" fill="#dbeafe" class="group"/>
-  <text x="65" y="357" class="label">planning A</text>
-  <rect x="70" y="380" width="140" height="34" class="box"/><text x="140" y="402" text-anchor="middle" class="text">PlanningService</text>
-  <rect x="245" y="380" width="155" height="34" class="box"/><text x="322" y="402" text-anchor="middle" class="text">FlightPlanRepository</text>
-  <rect x="70" y="465" width="140" height="34" class="box"/><text x="140" y="487" text-anchor="middle" class="text">FlightPlan + status</text>
-  <rect x="245" y="465" width="110" height="34" class="box"/><text x="300" y="487" text-anchor="middle" class="text">Zone</text>
-  <path d="M322 414 L322 465" class="edge"/><path d="M245 414 L190 465" class="edge"/>
+  <!-- Facade layer -->
+  <rect x="385" y="162" width="630" height="154" class="package" rx="10"/>
+  <text x="405" y="188" class="package-title">Facade layer</text>
+  <rect x="425" y="205" width="210" height="52" class="facade"/>
+  <text x="530" y="227" class="box-title">DispatchFacade</text>
+  <text x="530" y="244" class="box-text">«Facade»</text>
+  <rect x="765" y="205" width="210" height="52" class="facade"/>
+  <text x="870" y="227" class="box-title">AdminFacade</text>
+  <text x="870" y="244" class="box-text">«Facade»</text>
+  <rect x="425" y="270" width="210" height="32" class="box"/>
+  <text x="530" y="291" class="box-title">CompensationService</text>
+  <rect x="765" y="270" width="100" height="32" class="repo"/>
+  <text x="815" y="291" class="box-title">ChainRepository</text>
+  <rect x="875" y="270" width="100" height="32" class="entity"/>
+  <text x="925" y="286" class="box-title">DispatchChain</text>
+  <text x="925" y="298" class="box-text">status</text>
 
-  <rect x="505" y="330" width="390" height="250" fill="#dcfce7" class="group"/>
-  <text x="525" y="357" class="label">droneprep B</text>
-  <rect x="530" y="380" width="175" height="34" class="box"/><text x="617" y="402" text-anchor="middle" class="text">DronePreparationService</text>
-  <rect x="735" y="380" width="125" height="34" class="box"/><text x="797" y="402" text-anchor="middle" class="text">DroneRepository</text>
-  <rect x="555" y="465" width="105" height="34" class="box"/><text x="607" y="487" text-anchor="middle" class="text">Drone</text>
-  <rect x="715" y="465" width="140" height="34" class="box"/><text x="785" y="487" text-anchor="middle" class="text">DroneBooking + status</text>
-  <path d="M770 414 L620 465" class="edge"/><path d="M797 414 L785 465" class="edge"/>
+  <!-- Client and facade connections -->
+  <path d="M 665 132 L 560 205" class="edge"/>
+  <path d="M 735 132 L 840 205" class="edge"/>
+  <path d="M 530 257 L 530 270" class="edge"/>
+  <path d="M 870 257 L 590 270" class="edge"/>
+  <path d="M 635 286 L 765 286" class="edge"/>
+  <path d="M 865 286 L 875 286" class="edge"/>
+  <text x="700" y="334" class="note">DispatchFacade coordinates A → B → C; AdminFacade inspects and recovers persisted chains.</text>
 
-  <rect x="965" y="330" width="390" height="250" fill="#fee2e2" class="group"/>
-  <text x="985" y="357" class="label">landing C</text>
-  <rect x="990" y="380" width="130" height="34" class="box"/><text x="1055" y="402" text-anchor="middle" class="text">LandingService</text>
-  <rect x="1160" y="380" width="155" height="34" class="box"/><text x="1237" y="402" text-anchor="middle" class="text">DeliveryRepository</text>
-  <rect x="990" y="465" width="130" height="34" class="box"/><text x="1055" y="487" text-anchor="middle" class="text">LandingPad + status</text>
-  <rect x="1160" y="465" width="155" height="34" class="box"/><text x="1237" y="487" text-anchor="middle" class="text">DeliveryConfirmation + status</text>
-  <path d="M1200 414 L1065 465" class="edge"/><path d="M1237 414 L1237 465" class="edge"/>
+  <!-- Planning -->
+  <rect x="35" y="370" width="405" height="335" class="package" rx="10"/>
+  <text x="55" y="397" class="package-title">Planning subsystem (A)</text>
+  <rect x="70" y="425" width="150" height="52" class="service"/>
+  <text x="145" y="454" class="box-title">PlanningService</text>
+  <rect x="255" y="425" width="150" height="52" class="repo"/>
+  <text x="330" y="447" class="box-title">FlightPlan</text>
+  <text x="330" y="463" class="box-title">Repository</text>
+  <rect x="70" y="540" width="150" height="61" class="entity"/>
+  <text x="145" y="565" class="box-title">FlightPlan</text>
+  <text x="145" y="585" class="box-text">status</text>
+  <rect x="255" y="540" width="150" height="61" class="entity"/>
+  <text x="330" y="565" class="box-title">Zone</text>
+  <text x="330" y="585" class="box-text">status</text>
+  <path d="M 330 477 L 330 510 L 145 510 L 145 540" class="internal"/>
+  <path d="M 330 477 L 330 540" class="internal"/>
 
-  <path d="M260 129 L530 129" class="edge"/><path d="M260 140 L710 140" class="edge"/>
-  <path d="M602 157 L140 380" class="edge"/><path d="M602 157 L617 380" class="edge"/><path d="M602 157 L1055 380" class="edge"/>
-  <path d="M602 157 L322 380" class="edge"/><path d="M602 157 L797 380" class="edge"/><path d="M602 157 L1237 380" class="edge"/>
-  <path d="M602 157 L602 185" class="edge"/><path d="M782 157 L602 185" class="edge"/><path d="M602 219 L692 230" class="edge"/><path d="M782 219 L782 230" class="edge"/>
-  <text x="700" y="650" text-anchor="middle" class="text">Only facades coordinate the three subsystems. Each subsystem keeps its own state and repository.</text>
+  <!-- Drone preparation -->
+  <rect x="497" y="370" width="405" height="335" class="package" rx="10"/>
+  <text x="517" y="397" class="package-title">Drone preparation subsystem (B)</text>
+  <rect x="532" y="425" width="150" height="52" class="service"/>
+  <text x="607" y="447" class="box-title">DronePreparation</text>
+  <text x="607" y="463" class="box-title">Service</text>
+  <rect x="717" y="425" width="150" height="52" class="repo"/>
+  <text x="792" y="454" class="box-title">DroneRepository</text>
+  <rect x="532" y="540" width="150" height="61" class="entity"/>
+  <text x="607" y="565" class="box-title">Drone</text>
+  <text x="607" y="585" class="box-text">status</text>
+  <rect x="717" y="540" width="150" height="61" class="entity"/>
+  <text x="792" y="565" class="box-title">DroneBooking</text>
+  <text x="792" y="585" class="box-text">status</text>
+  <path d="M 792 477 L 792 510 L 607 510 L 607 540" class="internal"/>
+  <path d="M 792 477 L 792 540" class="internal"/>
+
+  <!-- Landing -->
+  <rect x="959" y="370" width="405" height="335" class="package" rx="10"/>
+  <text x="979" y="397" class="package-title">Landing subsystem (C)</text>
+  <rect x="994" y="425" width="150" height="52" class="service"/>
+  <text x="1069" y="454" class="box-title">LandingService</text>
+  <rect x="1179" y="425" width="150" height="52" class="repo"/>
+  <text x="1254" y="447" class="box-title">Delivery</text>
+  <text x="1254" y="463" class="box-title">Repository</text>
+  <rect x="994" y="540" width="150" height="61" class="entity"/>
+  <text x="1069" y="565" class="box-title">LandingPad</text>
+  <text x="1069" y="585" class="box-text">status</text>
+  <rect x="1179" y="540" width="150" height="61" class="entity"/>
+  <text x="1254" y="558" class="box-title">Delivery</text>
+  <text x="1254" y="575" class="box-title">Confirmation</text>
+  <text x="1254" y="592" class="box-text">status</text>
+  <path d="M 1254 477 L 1254 510 L 1069 510 L 1069 540" class="internal"/>
+  <path d="M 1254 477 L 1254 540" class="internal"/>
+
+  <!-- Dispatch fan-out: three deliberately separate routes -->
+  <path d="M 500 257 L 145 425" class="edge"/>
+  <path d="M 530 257 L 607 425" class="edge"/>
+  <path d="M 560 257 L 1069 425" class="edge"/>
+
+  <!-- Legend -->
+  <rect x="35" y="748" width="1329" height="76" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" rx="8"/>
+  <rect x="65" y="774" width="18" height="18" class="facade"/><text x="94" y="788" class="legend">Facade</text>
+  <rect x="195" y="774" width="18" height="18" class="service"/><text x="224" y="788" class="legend">Business service</text>
+  <rect x="390" y="774" width="18" height="18" class="repo"/><text x="419" y="788" class="legend">Repository / persistence</text>
+  <rect x="665" y="774" width="18" height="18" class="entity"/><text x="694" y="788" class="legend">Domain entity</text>
+  <text x="1010" y="788" class="legend">Each subsystem is usable independently; the facade is the only coordinator.</text>
 </svg>

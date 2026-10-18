@@ -1,72 +1,83 @@
 @startuml
+title Delivery Drone Dispatch — class diagram
+
+top to bottom direction
 skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam shadowing false
 
 class ConsoleMenu <<Client>>
 
-package planning {
-  class PlanningService
-  class FlightPlanRepository
-  class FlightPlan
-  class Zone
-  enum FlightPlanStatus
-  FlightPlan --> FlightPlanStatus
-  FlightPlanRepository --> FlightPlan
-  FlightPlanRepository --> Zone
-}
-
-package droneprep {
-  class DronePreparationService
-  class DroneRepository
-  class Drone
-  class DroneBooking
-  enum DroneBookingStatus
-  DroneBooking --> DroneBookingStatus
-  DroneRepository --> Drone
-  DroneRepository --> DroneBooking
-}
-
-package landing {
-  class LandingService
-  class DeliveryRepository
-  class LandingPad
-  class DeliveryConfirmation
-  enum LandingPadStatus
-  enum DeliveryConfirmationStatus
-  LandingPad --> LandingPadStatus
-  DeliveryConfirmation --> DeliveryConfirmationStatus
-  DeliveryRepository --> LandingPad
-  DeliveryRepository --> DeliveryConfirmation
-}
-
-package facade {
-  class DispatchFacade {
-    +dispatch(orderId, droneId, zone, payloadKg)
-  }
-  class AdminFacade {
-    +showAllData()
-    +compensate(chainId)
-    +recoverPending()
-  }
+package "Facade layer" {
+  class DispatchFacade <<Facade>>
+  class AdminFacade <<Facade>>
   class CompensationService
   class ChainRepository
-  class DispatchChain
-  enum ChainStatus
-  DispatchChain --> ChainStatus
-  ChainRepository --> DispatchChain
-  DispatchFacade --> CompensationService
-  AdminFacade --> CompensationService
-  CompensationService --> ChainRepository
+  class DispatchChain {
+    status
+  }
+}
+
+package "Planning subsystem (A)" {
+  class PlanningService
+  class FlightPlanRepository
+  class FlightPlan {
+    status
+  }
+  class Zone {
+    status
+  }
+}
+
+package "Drone preparation subsystem (B)" {
+  class DronePreparationService
+  class DroneRepository
+  class Drone {
+    status
+  }
+  class DroneBooking {
+    status
+  }
+}
+
+package "Landing subsystem (C)" {
+  class LandingService
+  class DeliveryRepository
+  class LandingPad {
+    status
+  }
+  class DeliveryConfirmation {
+    status
+  }
 }
 
 ConsoleMenu --> DispatchFacade
 ConsoleMenu --> AdminFacade
+
 DispatchFacade --> PlanningService
 DispatchFacade --> DronePreparationService
 DispatchFacade --> LandingService
-DispatchFacade --> FlightPlanRepository
-DispatchFacade --> DroneRepository
-DispatchFacade --> DeliveryRepository
-AdminFacade --> FlightPlanRepository
-AdminFacade --> DroneRepository
-AdminFacade --> DeliveryRepository
+DispatchFacade --> CompensationService
+AdminFacade --> CompensationService
+CompensationService --> ChainRepository
+ChainRepository --> DispatchChain
+
+FlightPlanRepository --> FlightPlan
+FlightPlanRepository --> Zone
+DroneRepository --> Drone
+DroneRepository --> DroneBooking
+DeliveryRepository --> LandingPad
+DeliveryRepository --> DeliveryConfirmation
+
+note right of AdminFacade
+  Inspects persisted chains
+  and starts recovery.
+end note
+
+note bottom of DispatchFacade
+  Coordinates A → B → C.
+  Services keep business rules;
+  repositories own persistence.
+end note
 @enduml
