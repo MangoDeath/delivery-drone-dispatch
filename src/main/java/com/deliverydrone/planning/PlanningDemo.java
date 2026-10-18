@@ -25,20 +25,11 @@ public class PlanningDemo {
             return;
         }
         Zone zone = repository.findZone("North");
-        new WeatherChecker().check(zone);
-        RoutePlanner planner = new RoutePlanner();
-        FlightPlan plan = createHeldPlan(zone, planner);
+        FlightPlan plan = new PlanningService().createHeldPlan("demo-order", zone);
         repository.saveFlightPlan(plan);
         plan.confirm();
         repository.updateFlightPlan(plan);
         printPlan(plan);
-    }
-
-    private static FlightPlan createHeldPlan(Zone zone, RoutePlanner planner) {
-        double distanceKm = planner.calculateDistanceKm(zone);
-        double travelTimeMinutes = planner.calculateTravelTimeMinutes(distanceKm);
-        return new FlightPlan("demo-order", zone.getName(), distanceKm,
-                travelTimeMinutes, FlightPlanStatus.HELD);
     }
 
     private static void printPlan(FlightPlan plan) {

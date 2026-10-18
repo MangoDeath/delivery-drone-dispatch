@@ -25,8 +25,7 @@ public class DronePrepDemo {
             return;
         }
         Drone drone = repository.findDrone("D1");
-        new PayloadSensor().check(3, drone);
-        new BatteryManager().check(5, drone);
+        new DronePreparationService().check(drone, 3, 5);
         DroneBooking booking = new DroneBooking("demo-order", drone.getId(), 3,
                 DroneBookingStatus.RESERVED);
         repository.saveBooking(booking);

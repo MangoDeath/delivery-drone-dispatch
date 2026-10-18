@@ -11,7 +11,7 @@ import com.deliverydrone.landing.LandingPadStatus;
 import com.deliverydrone.planning.FlightPlan;
 import com.deliverydrone.planning.FlightPlanRepository;
 import com.deliverydrone.planning.FlightPlanStatus;
-import com.deliverydrone.planning.RoutePlanner;
+import com.deliverydrone.planning.PlanningService;
 import com.deliverydrone.planning.Zone;
 import com.deliverydrone.shared.db.Database;
 
@@ -196,10 +196,7 @@ public class DispatchTestDsl {
 
     private void saveConfirmedPlan() throws Exception {
         Zone zone = planningRepository.findZone(zoneName);
-        RoutePlanner planner = new RoutePlanner();
-        double distance = planner.calculateDistanceKm(zone);
-        FlightPlan plan = new FlightPlan(orderId, zoneName, distance,
-                planner.calculateTravelTimeMinutes(distance), FlightPlanStatus.HELD);
+        FlightPlan plan = new PlanningService().createHeldPlan(orderId, zone);
         planningRepository.saveFlightPlan(plan);
         plan.confirm();
         planningRepository.updateFlightPlan(plan);

@@ -9,9 +9,8 @@ import com.deliverydrone.landing.DeliveryConfirmationStatus;
 import com.deliverydrone.landing.LandingPad;
 import com.deliverydrone.landing.LandingPadStatus;
 import com.deliverydrone.shared.exception.IllegalStateTransitionException;
-import com.deliverydrone.shared.exception.LowBatteryException;
+import com.deliverydrone.shared.exception.DronePreparationException;
 import com.deliverydrone.shared.exception.NoFreeLandingPadException;
-import com.deliverydrone.shared.exception.PayloadTooHeavyException;
 import com.deliverydrone.shared.exception.WeatherUnsafeException;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ class DispatchFacadeTest {
     void compensatesAWhenPayloadFailsInB() throws Exception {
         given().drone("D1").withBattery(90).andZone("North")
                 .whenDispatching("order-2").withPayload(8)
-                .thenFailedWith(PayloadTooHeavyException.class)
+                .thenFailedWith(DronePreparationException.class)
                 .thenChainIs(ChainStatus.COMPENSATED)
                 .andFlightPlanIs(FlightPlanStatus.CANCELLED)
                 .andNoBooking().andNoConfirmation();
@@ -63,7 +62,7 @@ class DispatchFacadeTest {
     void compensatesAWhenBatteryFailsInB() throws Exception {
         given().drone("D3").withBattery(10).andZone("East").withCoordinates(6, 8)
                 .whenDispatching("order-low-battery").withPayload(3)
-                .thenFailedWith(LowBatteryException.class)
+                .thenFailedWith(DronePreparationException.class)
                 .thenChainIs(ChainStatus.COMPENSATED)
                 .andFlightPlanIs(FlightPlanStatus.CANCELLED)
                 .andNoBooking().andNoConfirmation();

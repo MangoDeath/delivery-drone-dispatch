@@ -23,8 +23,14 @@ public class LandingDemo {
             System.out.println("Delivery was already confirmed.");
             return;
         }
-        LandingPad pad = new LandingPadController(repository).reservePad("North");
-        String code = new ConfirmationCodeGenerator().generate(1001);
+        LandingPad pad = repository.findFreePad("North");
+        if (pad == null) {
+            throw new IllegalStateException("No free demo landing pad.");
+        }
+        LandingService service = new LandingService();
+        service.reserve(pad);
+        repository.updatePad(pad);
+        String code = service.createConfirmationCode(1001);
         DeliveryConfirmation confirmation = new DeliveryConfirmation("demo-order", pad.getId(), code,
                 DeliveryConfirmationStatus.PENDING);
         repository.saveConfirmation(confirmation);

@@ -1,9 +1,10 @@
 @startuml
 skinparam classAttributeIconSize 0
 
+class ConsoleMenu <<Client>>
+
 package planning {
-  class RoutePlanner
-  class WeatherChecker
+  class PlanningService
   class FlightPlanRepository
   class FlightPlan
   class Zone
@@ -14,8 +15,7 @@ package planning {
 }
 
 package droneprep {
-  class PayloadSensor
-  class BatteryManager
+  class DronePreparationService
   class DroneRepository
   class Drone
   class DroneBooking
@@ -26,8 +26,7 @@ package droneprep {
 }
 
 package landing {
-  class LandingPadController
-  class ConfirmationCodeGenerator
+  class LandingService
   class DeliveryRepository
   class LandingPad
   class DeliveryConfirmation
@@ -35,7 +34,6 @@ package landing {
   enum DeliveryConfirmationStatus
   LandingPad --> LandingPadStatus
   DeliveryConfirmation --> DeliveryConfirmationStatus
-  LandingPadController --> DeliveryRepository
   DeliveryRepository --> LandingPad
   DeliveryRepository --> DeliveryConfirmation
 }
@@ -60,12 +58,11 @@ package facade {
   CompensationService --> ChainRepository
 }
 
-DispatchFacade --> RoutePlanner
-DispatchFacade --> WeatherChecker
-DispatchFacade --> PayloadSensor
-DispatchFacade --> BatteryManager
-DispatchFacade --> LandingPadController
-DispatchFacade --> ConfirmationCodeGenerator
+ConsoleMenu --> DispatchFacade
+ConsoleMenu --> AdminFacade
+DispatchFacade --> PlanningService
+DispatchFacade --> DronePreparationService
+DispatchFacade --> LandingService
 DispatchFacade --> FlightPlanRepository
 DispatchFacade --> DroneRepository
 DispatchFacade --> DeliveryRepository
