@@ -1,17 +1,14 @@
 package com.deliverydrone.facade;
 
 import com.deliverydrone.droneprep.Drone;
-import com.deliverydrone.droneprep.DroneBooking;
 import com.deliverydrone.droneprep.DroneBookingStatus;
 import com.deliverydrone.droneprep.DroneRepository;
 import com.deliverydrone.landing.DeliveryConfirmationStatus;
 import com.deliverydrone.landing.DeliveryRepository;
 import com.deliverydrone.landing.LandingPad;
 import com.deliverydrone.landing.LandingPadStatus;
-import com.deliverydrone.planning.FlightPlan;
 import com.deliverydrone.planning.FlightPlanRepository;
 import com.deliverydrone.planning.FlightPlanStatus;
-import com.deliverydrone.planning.PlanningService;
 import com.deliverydrone.planning.Zone;
 import com.deliverydrone.shared.db.Database;
 
@@ -111,12 +108,7 @@ public class DispatchTestDsl {
     public DispatchTestDsl whenLeftUnfinishedAfterB(String newOrderId) throws Exception {
         orderId = newOrderId;
         saveConfiguredData();
-        saveConfirmedPlan();
-        saveLoadedBooking();
-        DispatchChain chain = new DispatchChain(orderId, ChainStatus.PENDING_B);
-        chainRepository.save(chain);
-        chain.moveToPendingC();
-        chainRepository.update(chain);
+        dispatchFacade.leaveUnfinishedAfterB(orderId, droneId, zoneName, 3);
         return this;
     }
 
@@ -194,18 +186,4 @@ public class DispatchTestDsl {
         deliveryRepository.savePad(new LandingPad("P1", zoneName, status));
     }
 
-    private void saveConfirmedPlan() throws Exception {
-        Zone zone = planningRepository.findZone(zoneName);
-        FlightPlan plan = new PlanningService().createHeldPlan(orderId, zone);
-        planningRepository.saveFlightPlan(plan);
-        plan.confirm();
-        planningRepository.updateFlightPlan(plan);
-    }
-
-    private void saveLoadedBooking() throws Exception {
-        DroneBooking booking = new DroneBooking(orderId, droneId, 3, DroneBookingStatus.RESERVED);
-        droneRepository.saveBooking(booking);
-        booking.load();
-        droneRepository.updateBooking(booking);
-    }
 }

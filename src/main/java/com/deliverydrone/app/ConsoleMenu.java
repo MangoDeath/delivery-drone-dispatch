@@ -49,6 +49,7 @@ public class ConsoleMenu {
             case "3": adminFacade.showChainStatuses(); break;
             case "4": adminFacade.recoverPending(); break;
             case "5": resetDatabase(); break;
+            case "6": leaveUnfinishedAfterB(); break;
             case "0": return false;
             default: System.out.println("Choose a number from the menu.");
         }
@@ -74,9 +75,22 @@ public class ConsoleMenu {
         System.out.println("Database was reset and seed data was restored.");
     }
 
+    private void leaveUnfinishedAfterB() throws SQLException {
+        System.out.print("Order ID: ");
+        String orderId = scanner.nextLine();
+        System.out.print("Drone ID (D1, D2, D3): ");
+        String droneId = scanner.nextLine();
+        System.out.print("Zone (North, East, Windy, BusyZone): ");
+        String zone = scanner.nextLine();
+        System.out.print("Payload kg: ");
+        double payloadKg = Double.parseDouble(scanner.nextLine());
+        dispatchFacade.leaveUnfinishedAfterB(orderId, droneId, zone, payloadKg);
+        System.out.println("Saved after B. Exit, restart, then use Recover pending.");
+    }
+
     private void showMenu() {
         System.out.println("\n1 Dispatch  2 Show all  3 Show chains");
-        System.out.println("4 Recover pending  5 Reset DB  0 Exit");
+        System.out.println("4 Recover pending  5 Reset DB  6 Stop after B (demo)  0 Exit");
         System.out.print("Choose: ");
     }
 }

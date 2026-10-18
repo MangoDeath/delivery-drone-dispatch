@@ -14,7 +14,9 @@ Maven is downloaded automatically on the first run. The first launch creates
 `delivery-drone.db`; menu item `5` resets it to clean seed data.
 
 For the live demo, use `Windy` to fail before step A, payload `8` with `D1` to
-fail step B, and `BusyZone` to fail step C after A and B have completed.
+fail step B, and `BusyZone` to fail step C after A and B have completed. Menu
+item `6` intentionally stops after B: exit and restart the app, then use item
+`4` to demonstrate recovery from the persisted `PENDING_C` chain.
 
 ## Test
 
@@ -62,3 +64,4 @@ then cancels A. `AdminFacade.recoverPending()` reads the saved status after a
 restart and applies the same compensation.
 
 See [the UML source](docs/class-diagram.puml) and [the rendered SVG](docs/class-diagram.svg).
+For the defence walkthrough, see [DEFENSE_GUIDE.md](docs/DEFENSE_GUIDE.md).

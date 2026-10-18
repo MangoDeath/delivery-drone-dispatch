@@ -61,6 +61,22 @@ public class DispatchFacade {
         }
     }
 
+    /**
+     * Demo helper: persists A and B, then returns before C starts. It lets the
+     * console demonstrate recovery after the process is restarted.
+     */
+    public void leaveUnfinishedAfterB(String orderId, String droneId, String zoneName, double payloadKg)
+            throws SQLException {
+        Zone zone = planningRepository.findZone(zoneName);
+        checkZone(zone);
+        FlightPlan plan = createFlightPlan(orderId, zone);
+        DispatchChain chain = new DispatchChain(orderId, ChainStatus.PENDING_B);
+        chainRepository.save(chain);
+        createBooking(orderId, droneId, payloadKg, plan.getDistanceKm());
+        chain.moveToPendingC();
+        chainRepository.update(chain);
+    }
+
     private void checkZone(Zone zone) {
         if (zone == null) {
             throw new IllegalArgumentException("Zone does not exist.");
