@@ -108,7 +108,7 @@ public class DispatchTestDsl {
     public DispatchTestDsl whenLeftUnfinishedAfterB(String newOrderId) throws Exception {
         orderId = newOrderId;
         saveConfiguredData();
-        dispatchFacade.leaveUnfinishedAfterB(orderId, droneId, zoneName, 3);
+        dispatchFacade.dispatchAAndBOnly(orderId, droneId, zoneName, 3);
         return this;
     }
 

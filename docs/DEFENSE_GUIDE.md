@@ -102,6 +102,11 @@ possibly stale delivery. That is intentional: after an unknown interruption,
 releasing reserved resources is safer than dispatching a drone without a new
 decision.
 
+For a live rollback decision without restarting, use menu item `7`. It calls
+`DispatchFacade.dispatchAAndBOnly(...)`, then asks whether to compensate now.
+Entering `yes` releases B and cancels A; entering `no` keeps `PENDING_C` for
+the restart demonstration.
+
 ## 3. Why Facade, not Adapter
 
 Use this answer:

@@ -61,11 +61,8 @@ public class DispatchFacade {
         }
     }
 
-    /**
-     * Demo helper: persists A and B, then returns before C starts. It lets the
-     * console demonstrate recovery after the process is restarted.
-     */
-    public void leaveUnfinishedAfterB(String orderId, String droneId, String zoneName, double payloadKg)
+    // ***** +++++ LIVE DEMO: run A and B only; C is intentionally skipped. +++++ *****
+    public void dispatchAAndBOnly(String orderId, String droneId, String zoneName, double payloadKg)
             throws SQLException {
         Zone zone = planningRepository.findZone(zoneName);
         checkZone(zone);

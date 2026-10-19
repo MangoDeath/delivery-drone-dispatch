@@ -17,6 +17,8 @@ For the live demo, use `Windy` to fail before step A, payload `8` with `D1` to
 fail step B, and `BusyZone` to fail step C after A and B have completed. Menu
 item `6` intentionally stops after B: exit and restart the app, then use item
 `4` to demonstrate recovery from the persisted `PENDING_C` chain.
+Menu item `7` runs only A and B, then lets the user compensate them immediately
+or leave the chain pending.
 
 ## Test
 
