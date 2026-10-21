@@ -97,6 +97,7 @@ Run the demo:
 | `WeatherFlightTimeStrategy` | Estimates time from wind data. |
 | `FlightTimeContext` | Delegates estimation to the active strategy. |
 | `FlightTimeSelector` | Chooses a time strategy from current conditions. |
+| `FlightTimeStrategies` | Creates flight-time strategy instances. |
 | `WindSource` | Defines wind data access. |
 | `SimulatedWindSource` | Supplies fixed wind values. |
 | `StrategyDemo` | Prints Strategy behavior for the console. |
