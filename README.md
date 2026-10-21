@@ -65,7 +65,7 @@ The persisted chain status is `PENDING_B`, `PENDING_C`, `COMPLETED`, or
 then cancels A. `AdminFacade.recoverPending()` reads the saved status after a
 restart and applies the same compensation.
 
-See [the UML diagram](docs/class-diagram.png).
+See [the current UML diagram](docs/current-class-diagram.svg).
 For the defence walkthrough, see [DEFENSE_GUIDE.md](docs/DEFENSE_GUIDE.md).
 
 ## Assignment 5: Strategy Pattern
