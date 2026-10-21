@@ -67,3 +67,67 @@ restart and applies the same compensation.
 
 See [the UML diagram](docs/class-diagram.png).
 For the defence walkthrough, see [DEFENSE_GUIDE.md](docs/DEFENSE_GUIDE.md).
+
+## Assignment 5: Strategy Pattern
+
+This assignment is independent from the SQLite delivery chain above. It uses
+in-memory data in `com.deliverydrone.strategy`.
+
+Run the demo:
+
+```powershell
+.\mvnw.cmd -q exec:java "-Dexec.mainClass=com.deliverydrone.strategy.StrategyDemo"
+```
+
+### Classes and responsibilities
+
+| Class | Responsibility |
+| --- | --- |
+| `DeliveryRequest` | Stores delivery input values. |
+| `DroneOption` | Stores a candidate drone profile. |
+| `DroneSelectionStrategy` | Defines drone selection. |
+| `NearestDroneStrategy` | Chooses the closest suitable drone. |
+| `HighestBatteryDroneStrategy` | Chooses the most charged suitable drone. |
+| `LeastBusyDroneStrategy` | Chooses the least loaded suitable drone. |
+| `DroneSelectionContext` | Delegates selection to the active strategy. |
+| `DroneSelectionSelector` | Chooses a selection strategy from request properties. |
+| `FlightTimeStrategy` | Defines flight-time estimation. |
+| `StandardFlightTimeStrategy` | Estimates time at normal speed. |
+| `ExpressFlightTimeStrategy` | Estimates time with launch preparation. |
+| `WeatherFlightTimeStrategy` | Estimates time from wind data. |
+| `FlightTimeContext` | Delegates estimation to the active strategy. |
+| `FlightTimeSelector` | Chooses a time strategy from current conditions. |
+| `WindSource` | Defines wind data access. |
+| `SimulatedWindSource` | Supplies fixed wind values. |
+| `StrategyDemo` | Prints Strategy behavior for the console. |
+
+### Why Strategy, not State or Template Method
+
+Strategy fits this task because drone selection and flight-time estimation are
+alternative algorithms for the same operation. The caller can choose an
+algorithm manually through a context, replace it with `setStrategy()`, or ask a
+selector to choose from current request conditions. For example, an urgent
+request uses `NearestDroneStrategy`, while a heavy request uses
+`HighestBatteryDroneStrategy`. The context delegates work to the selected
+object. It has no knowledge of concrete strategy types.
+
+This is not State. State represents an object lifecycle where behavior changes
+because the object moves through internal states. `FlightPlan` status in
+Assignment 4 is an example of lifecycle state: a plan becomes held, confirmed,
+or cancelled. In Assignment 5, a delivery request does not transition through
+algorithm states. The active strategy is a deliberate runtime choice and can
+be replaced at any time.
+
+This is not Template Method. Template Method uses inheritance with one fixed
+algorithm skeleton in a parent class. Subclasses replace selected steps. Here
+the algorithms have no useful shared step sequence: nearest selection compares
+pickup distance, battery selection compares charge, and least-busy selection
+compares workload. Composition through a strategy interface keeps them
+independent. `WeatherFlightTimeStrategy` also receives `WindSource` through
+its constructor, allowing a simulated source in the demo and a fixed fake in
+tests without changing the strategy.
+
+### Refactoring history
+
+- [Before: one class with a switch](https://github.com/MangoDeath/delivery-drone-dispatch/commit/236e6f5bd18960e22ca7f320d5311ea677a6a3f4)
+- [After: separate Strategy classes](https://github.com/MangoDeath/delivery-drone-dispatch/commit/9b9adaa2f12cb50ca2b874a0a39d57d25ba4734aa)
