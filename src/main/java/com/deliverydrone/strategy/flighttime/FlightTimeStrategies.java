@@ -7,14 +7,14 @@ public final class FlightTimeStrategies {
     }
 
     public static FlightTimeStrategy standard() {
-        return new SwitchFlightTimeStrategy(FlightTimeMode.STANDARD, null);
+        return new StandardFlightTimeStrategy();
     }
 
     public static FlightTimeStrategy express() {
-        return new SwitchFlightTimeStrategy(FlightTimeMode.EXPRESS, null);
+        return new ExpressFlightTimeStrategy();
     }
 
     public static FlightTimeStrategy weather(WindSource windSource) {
-        return new SwitchFlightTimeStrategy(FlightTimeMode.WEATHER, windSource);
+        return new WeatherFlightTimeStrategy(windSource);
     }
 }
