@@ -109,15 +109,18 @@
   <text x="620" y="760" class="name">DroneSelectionStrategy</text>
   <text x="620" y="780" class="stereotype">«interface» select(request, drones)</text>
 
-  <rect x="315" y="855" width="175" height="65" rx="8" class="strategy"/>
-  <text x="402" y="881" class="name">NearestDrone</text>
-  <text x="402" y="901" class="detail">pickup distance</text>
-  <rect x="535" y="855" width="175" height="65" rx="8" class="strategy"/>
-  <text x="622" y="881" class="name">HighestBattery</text>
-  <text x="622" y="901" class="detail">battery percent</text>
-  <rect x="755" y="855" width="175" height="65" rx="8" class="strategy"/>
-  <text x="842" y="881" class="name">LeastBusy</text>
-  <text x="842" y="901" class="detail">active deliveries</text>
+  <rect x="315" y="855" width="145" height="65" rx="8" class="strategy"/>
+  <text x="387" y="881" class="name">NearestDrone</text>
+  <text x="387" y="901" class="detail">pickup distance</text>
+  <rect x="475" y="855" width="145" height="65" rx="8" class="strategy"/>
+  <text x="547" y="881" class="name">HighestBattery</text>
+  <text x="547" y="901" class="detail">battery percent</text>
+  <rect x="635" y="855" width="145" height="65" rx="8" class="strategy"/>
+  <text x="707" y="881" class="name">LeastBusy</text>
+  <text x="707" y="901" class="detail">active deliveries</text>
+  <rect x="795" y="855" width="145" height="65" rx="8" class="strategy"/>
+  <text x="867" y="881" class="name">LargestCapacity</text>
+  <text x="867" y="901" class="detail">payload capacity</text>
 
   <rect x="370" y="980" width="210" height="55" rx="8" class="model"/>
   <text x="475" y="1006" class="name">DeliveryRequest</text>
@@ -129,9 +132,10 @@
   <path d="M 245 606 L 320 649" class="edge"/>
   <path d="M 550 649 L 620 735" class="edge"/>
   <path d="M 780 678 L 680 735" class="edge"/>
-  <path d="M 402 855 L 540 794" class="dash"/>
-  <path d="M 622 855 L 620 794" class="dash"/>
-  <path d="M 842 855 L 700 794" class="dash"/>
+  <path d="M 387 855 L 540 794" class="dash"/>
+  <path d="M 547 855 L 600 794" class="dash"/>
+  <path d="M 707 855 L 660 794" class="dash"/>
+  <path d="M 867 855 L 700 794" class="dash"/>
   <path d="M 475 980 L 535 794" class="dash"/>
   <path d="M 770 980 L 705 794" class="dash"/>
   <text x="845" y="720" class="edge-label">delegates</text>

@@ -89,6 +89,7 @@ Run the demo:
 | `NearestDroneStrategy` | Chooses the closest suitable drone. |
 | `HighestBatteryDroneStrategy` | Chooses the most charged suitable drone. |
 | `LeastBusyDroneStrategy` | Chooses the least loaded suitable drone. |
+| `LargestCapacityDroneStrategy` | Chooses the strongest suitable drone. |
 | `DroneSelectionContext` | Delegates selection to the active strategy. |
 | `DroneSelectionSelector` | Chooses a selection strategy from request properties. |
 | `FlightTimeStrategy` | Defines flight-time estimation. |

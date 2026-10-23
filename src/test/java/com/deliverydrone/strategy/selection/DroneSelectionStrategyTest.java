@@ -13,7 +13,8 @@ class DroneSelectionStrategyTest {
     private final List<DroneOption> drones = List.of(
             new DroneOption("Near", 1, 50, 5, 4),
             new DroneOption("Battery", 4, 95, 10, 2),
-            new DroneOption("Free", 3, 70, 6, 0)
+            new DroneOption("Free", 3, 70, 6, 0),
+            new DroneOption("Capacity", 6, 60, 15, 5)
     );
 
     @Test
@@ -29,5 +30,11 @@ class DroneSelectionStrategyTest {
     @Test
     void leastBusyStrategyChoosesFreeDrone() {
         assertEquals("Free", new LeastBusyDroneStrategy().select(request, drones).getId());
+    }
+
+    // ++++++++++++++++
+    @Test
+    void largestCapacityStrategyChoosesStrongestDrone() {
+        assertEquals("Capacity", new LargestCapacityDroneStrategy().select(request, drones).getId());
     }
 }

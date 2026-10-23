@@ -10,6 +10,7 @@ import com.deliverydrone.strategy.model.DroneOption;
 import com.deliverydrone.strategy.selection.DroneSelectionContext;
 import com.deliverydrone.strategy.selection.DroneSelectionSelector;
 import com.deliverydrone.strategy.selection.HighestBatteryDroneStrategy;
+import com.deliverydrone.strategy.selection.LargestCapacityDroneStrategy;
 import com.deliverydrone.strategy.selection.LeastBusyDroneStrategy;
 import com.deliverydrone.strategy.selection.NearestDroneStrategy;
 import com.deliverydrone.strategy.weather.SimulatedWindSource;
@@ -24,7 +25,8 @@ public class StrategyDemo {
         List<DroneOption> drones = List.of(
                 new DroneOption("Near", 1, 55, 5, 4),
                 new DroneOption("Battery", 4, 95, 10, 2),
-                new DroneOption("Free", 3, 70, 6, 0)
+                new DroneOption("Free", 3, 70, 6, 0),
+                new DroneOption("Capacity", 6, 60, 15, 5)
         );
 
         showDroneStrategies(request, drones);
@@ -36,6 +38,8 @@ public class StrategyDemo {
         System.out.println("Nearest: " + new NearestDroneStrategy().select(request, drones).getId());
         System.out.println("Highest battery: " + new HighestBatteryDroneStrategy().select(request, drones).getId());
         System.out.println("Least busy: " + new LeastBusyDroneStrategy().select(request, drones).getId());
+        // ++++++++++++++++
+        System.out.println("Largest capacity: " + new LargestCapacityDroneStrategy().select(request, drones).getId());
 
         DroneSelectionContext context = new DroneSelectionContext(new HighestBatteryDroneStrategy());
         System.out.println("Manual choice: " + context.select(request, drones).getId());
